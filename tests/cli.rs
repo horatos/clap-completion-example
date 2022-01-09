@@ -9,6 +9,12 @@ fn cmd() -> Command {
 }
 
 #[fixture]
+fn greet(mut cmd: Command) -> Command {
+    cmd.arg("greet");
+    cmd
+}
+
+#[fixture]
 fn hello_world_txt() -> PathBuf {
     [env!("CARGO_MANIFEST_DIR"), "tests", "data", "hello_world.txt"].iter().collect()
 }
@@ -19,21 +25,21 @@ fn see_you_txt() -> PathBuf {
 }
 
 #[rstest]
-fn without_arguments(mut cmd: Command) {
-    cmd.assert().stdout("Hello\n");
+fn greet_without_arguments(mut greet: Command) {
+    greet.assert().stdout("Hello\n");
 }
 
 #[rstest]
-fn with_option_lang_en(mut cmd: Command) {
-    cmd.args(["-l", "en"]).assert().stdout("Hello\n");
+fn greet_with_option_lang_en(mut greet: Command) {
+    greet.args(["-l", "en"]).assert().stdout("Hello\n");
 }
 
 #[rstest]
-fn with_option_lang_ja(mut cmd: Command) {
-    cmd.args(["-l", "ja"]).assert().stdout("こんにちは\n");
+fn greet_with_option_lang_ja(mut greet: Command) {
+    greet.args(["-l", "ja"]).assert().stdout("こんにちは\n");
 }
 
 #[rstest]
-fn with_option_file_see_you(mut cmd: Command, see_you_txt: PathBuf) {
-    cmd.arg("-f").arg(&see_you_txt).assert().stdout("See you!\n");
+fn greet_with_option_file_see_you(mut greet: Command, see_you_txt: PathBuf) {
+    greet.arg("-f").arg(&see_you_txt).assert().stdout("See you!\n");
 }
