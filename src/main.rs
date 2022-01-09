@@ -17,7 +17,18 @@ enum Language {
 }
 
 fn main() {
-    let _cli = Cli::parse();
-
-    println!("Hello");
+    match Cli::parse() {
+        Cli { language: None, file: None } => {
+            println!("Hello");
+        },
+        Cli { language: Some(Language::En), .. } => {
+            println!("Hello");
+        },
+        Cli { language: Some(Language::Ja), .. } => {
+            println!("こんにちは");
+        },
+        _ => {
+            unimplemented!();
+        },
+    }
 }
