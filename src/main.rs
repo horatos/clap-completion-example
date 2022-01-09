@@ -19,7 +19,7 @@ enum Action {
         /// File whose content is printed.
         ///
         /// The trailing whitespaces of the content are trimmed.
-        #[clap(long,short)]
+        #[clap(long,short,conflicts_with("language"))]
         file: Option<PathBuf>,
     },
 }

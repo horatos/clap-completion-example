@@ -43,3 +43,8 @@ fn greet_with_option_lang_ja(mut greet: Command) {
 fn greet_with_option_file_see_you(mut greet: Command, see_you_txt: PathBuf) {
     greet.arg("-f").arg(&see_you_txt).assert().stdout("See you!\n");
 }
+
+#[rstest]
+fn greet_with_language_and_file(mut greet: Command) {
+    greet.args(["-l", "ja", "-f", "foo.txt"]).assert().failure();
+}
