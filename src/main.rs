@@ -27,8 +27,9 @@ fn main() {
         Cli { language: Some(Language::Ja), .. } => {
             println!("こんにちは");
         },
-        _ => {
-            unimplemented!();
+        Cli { file: Some(file), .. } => {
+            let s = std::fs::read_to_string(&file).unwrap();
+            println!("{}", s.trim_end());
         },
     }
 }
