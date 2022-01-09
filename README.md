@@ -10,15 +10,15 @@ Builderパターンによるパーサーの構築（この機能はBuilder API�
 use clap::App;
 
 let app = App::new("example")
-	.arg(
-		Arg::new("verbose")
-			.short('v')
-			.help("enable verbose mode")
-	)
-	.arg(
-		Arg::new("file")
-			.index(1)
-	);
+    .arg(
+        Arg::new("verbose")
+            .short('v')
+            .help("enable verbose mode")
+    )
+    .arg(
+        Arg::new("file")
+            .index(1)
+    );
 ```
 
 一方、deriveマクロによるパーサーの構築（この機能はDerive APIと呼ばれています）では、構造体に属性を付けることで引数を設定します。コマンドライン引数のパースに成功すると、deriveマクロを使った構造体にパースされた結果が格納されます。
