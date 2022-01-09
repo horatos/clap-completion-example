@@ -28,10 +28,10 @@ use clap::Parser;
 
 #[derive(Parser)]
 struct Args {
-	file: PathBuf,
-	/// enable verbose mode
-	#[clap(short, long)]
-	verbose: bool,
+    file: PathBuf,
+    /// enable verbose mode
+    #[clap(short, long)]
+    verbose: bool,
 }
 ```
 
