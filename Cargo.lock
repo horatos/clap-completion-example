@@ -75,7 +75,7 @@ dependencies = [
 
 [[package]]
 name = "clap-completion-example"
-version = "0.1.0"
+version = "0.1.0+step-1"
 dependencies = [
  "assert_cmd",
  "clap",
