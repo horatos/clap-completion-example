@@ -156,3 +156,106 @@ fn main() {
 引数`bin_name`はコマンドの名前です。`Into<String>`を実装しているオブジェクトを渡す必要があります。この引数で渡す名前とバイナリの名前を一致させないと、シェルが補完スクリプトを呼び出すことができません。
 
 引数`buf`は`Write`を実装しているオブジェクトを渡す必要があります。スクリプトの書き込み先をこの引数で渡します。
+
+### completionサブコマンドの実装
+
+それでは新しいサブコマンドの実装に移りましょう。`--shell`オプションで対応するシェルを指定することにします。
+
+```console
+$ cargo run -- completion --shell zsh
+（Zsh用の補完スクリプトが表示される）
+```
+
+以下に新しいソースコードを示します。[GitHubで先ほどのコードとのdiff](https://github.com/horatos/clap-completion-example/compare/step1...step2?diff=split#diff-42cb6807ad74b3e201c5a7ca98b911c5fa08380e942be6e4ac5807f8377f87fc)を見ることもできます。
+
+```rust
+use std::path::PathBuf;
+
+use clap::{ArgEnum, IntoApp, Parser, Subcommand, ValueHint}; // (1)
+use clap_complete::{generate, Generator, Shell}; // (2)
+
+/// Greet command (example for clap_complete command).
+#[derive(Parser,Debug)]
+struct Cli {
+    #[clap(subcommand)]
+    action: Action,
+}
+
+#[derive(Subcommand,Debug)]
+enum Action {
+    /// Greet some message.
+    Greet {
+        /// Language in which messages are shown.
+        #[clap(long,short,arg_enum)]
+        language: Option<Language>,
+        /// File whose content is printed.
+        ///
+        /// The trailing whitespaces of the content are trimmed.
+        #[clap(long,short,conflicts_with("language"),value_hint(ValueHint::FilePath))] // (3)
+        file: Option<PathBuf>,
+    },
+    /// Generate completion script
+    Completion { // (4)
+        #[clap(long,short,arg_enum)]
+        shell: Shell,
+    },
+}
+
+#[derive(ArgEnum,Clone,Debug)]
+enum Language {
+    En,
+    Ja,
+}
+
+impl Action {
+    fn handle(self) {
+        use Action::*;
+
+        match self {
+            Greet { language: None, file: None } => {
+                println!("Hello");
+            },
+            Greet { language: Some(Language::En), .. } => {
+                println!("Hello");
+            },
+            Greet { language: Some(Language::Ja), .. } => {
+                println!("こんにちは");
+            },
+            Greet { file: Some(file), .. } => {
+                let s = std::fs::read_to_string(&file).unwrap();
+                println!("{}", s.trim_end());
+            },
+            Completion { shell } => { // (5)
+                print_completer(shell);
+            },
+        }
+    }
+}
+
+fn print_completer<G: Generator>(generator: G) { // (6)
+    let mut app = Cli::into_app();
+    let name = app.get_name().to_owned();
+
+    generate(generator, &mut app, name, &mut std::io::stdout());
+}
+
+fn main() {
+    Cli::parse().action.handle();
+}
+```
+
+まず、(1)(2)で新しく必要となるトレイトなどをインポートします。
+
+(3)ではバリアント`Greet`の属性に`value_hint(ValueHint::FilePath)`を追加しています。これを追加することでファイルパスのみが補完の候補として出てくるようにすることができます。
+
+(4)ではバリアント`Completion`を追加することでサブコマンドを追加しています。フィールド`shell`の属性に`arg_enum`を付けることで、入力可能な値が`Shell`のバリアントに限定され、補完時の候補もバリアントの名前から選ばれることになります。
+
+(5)ではバリアント`Completion`を処理する手続きを呼び出しています。関数`print_completer`が補完スクリプトを標準出力に書き出します。
+
+(6)では関数`print_completer`が、構造体`Cli`から`App`のオブジェクトを作成して関数`generate`を呼び出しています。
+
+以上で補完スクリプト生成機能の追加は完了です。以下のコマンドを実行することで補完スクリプトが表示されます。
+
+```console
+$ cargo run -- completion --shell zsh
+```
