@@ -4,7 +4,7 @@
 
 [clap](https://crates.io/crates/clap)はRustのコマンドライン引数パーサーです。Builderパターンによるパーサーの構築が素の使い方ですが、バージョン3でderiveマクロによるパーサーの構築が安定化されました。
 
-Builderパターンによるパーサーの構築（この機能はBuilder APIと呼ばれています）では、以下のようなコードでパーサーを記述します。構造体`App`がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
+Builderパターンによるパーサーの構築（この機能はBuilder APIと呼ばれています）では、以下のようなコードでパーサーを記述します。[構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
 
 ```rust
 use clap::App;
@@ -137,3 +137,22 @@ fn main() {
     Cli::parse().action.handle();
 }
 ```
+
+## clap_completeクレートを使って補完スクリプトを生成する
+
+前節で作ったプログラムを拡張して補完スクリプトを生成するサブコマンドを追加します。サブコマンドの仕様を考える前にclap_completeが提供する関数やトレイトなどと見ておきましょう。
+
+補完スクリプトの生成は[関数`generate`](https://docs.rs/clap_complete/latest/clap_complete/generator/fn.generate.html)が行います。関数`generate`は以下の四つの引数を受け取ります。
+
+- `gen`
+- `app`
+- `bin_name`
+- `buf`
+
+まず、引数`gen`は[トレイト`Generator`](https://docs.rs/clap_complete/latest/clap_complete/generator/trait.Generator.html)を実装したオブジェクトでなければなりません。clap_completeはこのトレイトを実装する[列挙体`Shell`](https://docs.rs/clap_complete/latest/clap_complete/shells/enum.Shell.html)を提供しています。`Shell`は補完スクリプトの生成に対応しているシェルを表現する列挙体です。
+
+次に、引数`app`は[clapの構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)のオブジェクトです。Builder APIでパーサーを構築する場合は素直に手に入りますが、Derive APIを使う場合は[トレイト`IntoApp`](https://docs.rs/clap/latest/clap/trait.IntoApp.html)を使うことで構造体`App`のオブジェクトを手に入れられます。
+
+引数`bin_name`はコマンドの名前です。`Into<String>`を実装しているオブジェクトを渡す必要があります。この引数で渡す名前とバイナリの名前を一致させないと、シェルが補完スクリプトを呼び出すことができません。
+
+引数`buf`は`Write`を実装しているオブジェクトを渡す必要があります。スクリプトの書き込み先をこの引数で渡します。
