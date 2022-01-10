@@ -1,0 +1,8 @@
+export fpath=($fpath $(pwd)/comp)
+export PS1="${PS1:-} (comp)$ "
+alias clap-completion-example=$(pwd)/target/debug/clap-completion-example
+
+mkdir -p comp && \
+cargo run -- completion --shell zsh > comp/_clap-completion-example && \
+autoload -Uz compinit && \
+compinit
