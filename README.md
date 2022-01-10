@@ -276,3 +276,14 @@ cargo run -- completion --shell zsh > comp/_clap-completion-example && \
 autoload -Uz compinit && \
 compinit
 ```
+
+まず、プロジェクトルート（_Cargo.toml_があるディレクトリ）で以下のコマンドを実行して補完スクリプトをロードしてください。
+
+```console
+$ zsh
+$ source setup
+```
+
+これでビルドしたプログラムを`clap-completion-example`という名前で呼び出せるようになります。
+
+まずは、サブコマンドの補完を試してみましょう。
