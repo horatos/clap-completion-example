@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
-use clap::{ArgEnum, Parser, Subcommand};
+use clap::{ArgEnum, IntoApp, Parser, Subcommand, ValueHint};
+use clap_complete::{generate, Generator, Shell};
 
 /// Greet command (example for clap_complete command).
 #[derive(Parser,Debug)]
@@ -19,8 +20,13 @@ enum Action {
         /// File whose content is printed.
         ///
         /// The trailing whitespaces of the content are trimmed.
-        #[clap(long,short,conflicts_with("language"))]
+        #[clap(long,short,conflicts_with("language"),value_hint(ValueHint::FilePath))]
         file: Option<PathBuf>,
+    },
+    /// Generate completion script
+    Completion {
+        #[clap(long,short,arg_enum)]
+        shell: Shell,
     },
 }
 
@@ -32,7 +38,7 @@ enum Language {
 
 impl Action {
     fn handle(self) {
-        use Action::Greet;
+        use Action::*;
 
         match self {
             Greet { language: None, file: None } => {
@@ -48,8 +54,18 @@ impl Action {
                 let s = std::fs::read_to_string(&file).unwrap();
                 println!("{}", s.trim_end());
             },
+            Completion { shell } => {
+                print_completer(shell);
+            },
         }
     }
+}
+
+fn print_completer<G: Generator>(generator: G) {
+    let mut app = Cli::into_app();
+    let name = app.get_name().to_owned();
+
+    generate(generator, &mut app, name, &mut std::io::stdout());
 }
 
 fn main() {

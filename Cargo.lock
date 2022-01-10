@@ -79,7 +79,17 @@ version = "0.1.0+step-1"
 dependencies = [
  "assert_cmd",
  "clap",
+ "clap_complete",
  "rstest",
+]
+
+[[package]]
+name = "clap_complete"
+version = "3.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a394f7ec0715b42a4e52b294984c27c9a61f77c8d82f7774c5198350be143f19"
+dependencies = [
+ "clap",
 ]
 
 [[package]]
