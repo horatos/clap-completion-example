@@ -259,3 +259,20 @@ fn main() {
 ```console
 $ cargo run -- completion --shell zsh
 ```
+
+## 生成した補完スクリプトをzshで使用する
+
+clap_completeで生成した補完スクリプトをzshで使ってみましょう。補完スクリプトのインストールは環境変数`fpath`に設定されたディレクトリにスクリプトを置いてから、関数`compinit`呼び出すことで実現できます。
+
+ただし、開発時には生成し直した補完スクリプトをリロードしたり、必要がなくなった補完スクリプトをアンロードしたりする必要があります。そのあたりをいちいちケアするのは面倒なので、以下の内容のスクリプトを`setup`という名前で保存し、zshを新しく起動して`source setup`を実行することで補完スクリプトをロードします。補完スクリプトが必要でなくなれば`exit`でシェルから抜けるだけでよくなります。
+
+```shell:setup
+export fpath=($fpath $(pwd)/comp)
+export PS1="${PS1:-} (comp)$ "
+alias clap-completion-example=$(pwd)/target/debug/clap-completion-example
+
+mkdir -p comp && \
+cargo run -- completion --shell zsh > comp/_clap-completion-example && \
+autoload -Uz compinit && \
+compinit
+```
