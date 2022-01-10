@@ -286,4 +286,16 @@ $ source setup
 
 これでビルドしたプログラムを`clap-completion-example`という名前で呼び出せるようになります。
 
-まずは、サブコマンドの補完を試してみましょう。
+まずは、サブコマンドの補完を試してみましょう。コマンド名の後でタブを入力することで、サブコマンドの候補とヘルプメッセージが表示されます。
+
+![](img/complete-subcommand.png)
+
+次の例は、greetサブコマンドのオプションを補完する例です。
+
+![](img/complete-greet-options.png)
+
+`-l`オプションや`-f`オプションの候補も入力可能な値が候補として表示されます。
+
+![](img/complete-greet-language.png)
+
+![](img/complete-greet-file.png)
