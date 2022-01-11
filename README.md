@@ -2,9 +2,11 @@
 
 この記事では、2022年1月にリリースされたclapバージョン3とclap_completeクレートを使って、シェルの補完スクリプトを生成する方法を紹介します。
 
-[clap](https://crates.io/crates/clap)はRustのコマンドライン引数パーサーです。Builderパターンによるパーサーの構築が素の使い方ですが、バージョン3でderiveマクロによるパーサーの構築が安定化されました。
+## はじめに
 
-Builderパターンによるパーサーの構築（この機能はBuilder APIと呼ばれています）では、以下のようなコードでパーサーを記述します。[構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
+[clap](https://crates.io/crates/clap)はRustのコマンドライン引数パーサーです。近年の他のプログラミング言語のコマンドライン引数パーサーと同様に、補完スクリプトの生成に対応しています。他の言語で補完スクリプトの生成を実装しているライブラリとして、例えばPythonには[argcomplete](https://pypi.org/project/argcomplete/)や[cleo](https://pypi.org/project/cleo)があります。Goには[go-flags](https://pkg.go.dev/github.com/jessevdk/go-flags)があります。
+
+clapはBuilderパターンによるパーサーの構築が素の使い方ですが、バージョン3でderiveマクロによるパーサーの構築が安定化されました。Builderパターンによるパーサーの構築（この機能はBuilder APIと呼ばれています）では、以下のようなコードでパーサーを記述します。[構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
 
 ```rust
 use clap::App;
@@ -53,6 +55,8 @@ clapとclap_completeを使ってシェル補完スクリプトを生成する方
 | clap | 3.0.5   |
 | clap_complete | 3.0.2 |
 | zsh | 5.8 (x86_64-apple-darwin21.0) |
+
+以下の節で紹介するプログラムのソースコードは[horatos/clap-completion-example](https://github.com/horatos/clap-completion-example)にあります。
 
 ## メッセージを表示するプログラムを作成する
 
