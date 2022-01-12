@@ -7,8 +7,8 @@
 [clap](https://crates.io/crates/clap)はRustのコマンドライン引数パーサーです。
 近年の他のプログラミング言語のコマンドライン引数パーサー——例えば、Pythonの[argcomplete](https://pypi.org/project/argcomplete/)、[click](https://click.palletsprojects.com/en/8.0.x/)や[cleo](https://pypi.org/project/cleo)、Goの[go-flags](https://pkg.go.dev/github.com/jessevdk/go-flags)——同様に、補完スクリプトの生成に対応しています。
 
-
-clapはBuilderパターンによるパーサーの構築が素の使い方ですが、バージョン3でderiveマクロによるパーサーの構築が安定化されました。Builderパターンによるパーサーの構築（この機能はBuilder APIと呼ばれています）では、以下のようなコードでパーサーを記述します。[構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
+clapはBuilderパターンによるパーサーの構築が素の使い方ですが、バージョン3でderiveマクロによるパーサーの構築が安定化されました。
+Builderパターンによるパーサーの構築——この機能はBuilder APIと呼ばれています——では、以下のようなコードでパーサーを記述します。[構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
 
 ```rust
 use clap::App;
@@ -25,7 +25,7 @@ let app = App::new("example")
     );
 ```
 
-一方、deriveマクロによるパーサーの構築（この機能はDerive APIと呼ばれています）では、構造体に属性を付けることで引数を設定します。コマンドライン引数のパースに成功すると、deriveマクロを使った構造体にパースされた結果が格納されます。
+一方、deriveマクロによるパーサーの構築——この機能はDerive APIと呼ばれています——では、構造体に属性を付けることで引数を設定します。コマンドライン引数のパースに成功すると、deriveマクロを使った構造体にパースされた結果が格納されます。
 
 ```rust
 use clap::Parser;
@@ -47,9 +47,9 @@ clapとclap_completeを使ってシェル補完スクリプトを生成する方
 2. clap_completeの使い方を解説し、補完スクリプトを生成するサブコマンドを実装する。
 3. 生成した補完スクリプトをzshで使用する。
 
-この記事ではDerive APIの使い方について詳細な説明は行いません。[structopt](https://crates.io/crates/structopt)を使った経験があることを前提にします。
+なお、この記事ではDerive APIの使い方について詳細な説明は行いません。[structopt](https://crates.io/crates/structopt)を使った経験があることを前提にします。
 
-この記事の執筆に利用したRustやclap等のバージョンは以下の通りです。
+執筆に利用したRustやclap等のバージョンは以下の通りです。
 
 | Name | Version |
 |------|---------|
@@ -58,7 +58,7 @@ clapとclap_completeを使ってシェル補完スクリプトを生成する方
 | clap_complete | 3.0.2 |
 | zsh | 5.8 (x86_64-apple-darwin21.0) |
 
-以下の節で紹介するプログラムのソースコードは[horatos/clap-completion-example](https://github.com/horatos/clap-completion-example)にあります。
+本文中で紹介するプログラムのソースコードは[horatos/clap-completion-example](https://github.com/horatos/clap-completion-example)にあります。
 
 ## メッセージを表示するプログラムを作成する
 
