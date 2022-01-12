@@ -4,7 +4,9 @@
 
 ## はじめに
 
-[clap](https://crates.io/crates/clap)はRustのコマンドライン引数パーサーです。近年の他のプログラミング言語のコマンドライン引数パーサーと同様に、補完スクリプトの生成に対応しています。他の言語で補完スクリプトの生成を実装しているライブラリとして、例えばPythonには[argcomplete](https://pypi.org/project/argcomplete/)や[cleo](https://pypi.org/project/cleo)があります。Goには[go-flags](https://pkg.go.dev/github.com/jessevdk/go-flags)があります。
+[clap](https://crates.io/crates/clap)はRustのコマンドライン引数パーサーです。
+近年の他のプログラミング言語のコマンドライン引数パーサー——例えば、Pythonの[argcomplete](https://pypi.org/project/argcomplete/)、[click](https://click.palletsprojects.com/en/8.0.x/)や[cleo](https://pypi.org/project/cleo)、Goの[go-flags](https://pkg.go.dev/github.com/jessevdk/go-flags)——同様に、補完スクリプトの生成に対応しています。他の言語で補完スクリプトの生成を実装しているライブラリとして、例えば
+
 
 clapはBuilderパターンによるパーサーの構築が素の使い方ですが、バージョン3でderiveマクロによるパーサーの構築が安定化されました。Builderパターンによるパーサーの構築（この機能はBuilder APIと呼ばれています）では、以下のようなコードでパーサーを記述します。[構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
 
@@ -303,20 +305,20 @@ $ source setup
 
 まずは、サブコマンドの補完を試してみましょう。コマンド名の後でタブを入力することで、サブコマンドの候補とヘルプメッセージが表示されます。（以下の画像では、入力の後にタブキーを押しているものだと理解してください。）
 
-![](img/complete-subcommand.png)
+![サブコマンドの補完を行う](img/complete-subcommand.png)
 
 次の例は、greetサブコマンドのオプションを補完する例です。
 
-![](img/complete-greet-options.png)
+![greetサブコマンドのオプションを補完する](img/complete-greet-options.png)
 
 `-l`オプションや`-f`オプションの候補も入力可能な値が候補として表示されます。
 
-![](img/complete-greet-language.png)
+![languageオプションの値を補完する](img/complete-greet-language.png)
 
-![](img/complete-greet-file.png)
+![fileオプションの値を補完する](img/complete-greet-file.png)
 
 ## さいごに
 
 簡単な例を通して、clapを使うことでシェルの補完スクリプトを容易に生成できることを見ました。今回はzsh用の補完スクリプトを生成しましたが、clap_completeはbashやPowerShellなどの他のシェルにも対応しています。
 
-`ValueHint`を使うことで補完する値の候補を指定することができることを見ました。ただし、この機能はあらかじめ決められた種類の候補しか指定できません。例えば、Gitの補完で`git checkout`にブランチ名の候補を出すような、コマンドに固有な内容での補完は実現できません。このような補完のサポートは[議論の最中](https://github.com/clap-rs/clap/issues/1232)のようです。実装されるまでにはまだ時間がかかりそうです。
+`ValueHint`を使うことで補完する値の候補を指定することができることを見ました。ただし、この機能はあらかじめ決められた種類の候補しか指定できません。例えば、Gitの補完で`git checkout`にブランチ名の候補を出すような、コマンドに固有な内容での補完は実現できません。このような補完のサポートは[議論が行われている](https://github.com/clap-rs/clap/issues/1232)ようですが、先に解決しなければならない課題があるようです。実装されるまでにはまだ時間がかかりそうです。
