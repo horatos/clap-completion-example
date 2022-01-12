@@ -11,7 +11,7 @@ clapはBuilderパターンによるパーサーの構築が素の使い方です
 Builderパターンによるパーサーの構築——この機能はBuilder APIと呼ばれています——では、以下のようなコードでパーサーを記述します。[構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)がビルダーであり、そのメソッドを呼び出すことで引数を追加していきます。
 
 ```rust
-use clap::App;
+use clap::*;
 
 let app = App::new("example")
     .arg(
@@ -32,7 +32,7 @@ use clap::Parser;
 
 #[derive(Parser)]
 struct Args {
-    file: PathBuf,
+    file: std::path::PathBuf,
     /// enable verbose mode
     #[clap(short, long)]
     verbose: bool,
