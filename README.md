@@ -5,6 +5,7 @@
 ## はじめに
 
 [clap](https://crates.io/crates/clap)はRustのコマンドライン引数パーサーです。
+豊富な機能を備えており、Rustではデファクトスタンダートになっているライブラリです。
 近年の他のプログラミング言語のコマンドライン引数パーサー——例えば、Pythonの[argcomplete](https://pypi.org/project/argcomplete/)、[click](https://click.palletsprojects.com/en/8.0.x/)や[cleo](https://pypi.org/project/cleo)、Goの[go-flags](https://pkg.go.dev/github.com/jessevdk/go-flags)——同様に、補完スクリプトの生成に対応しています。
 
 clapはBuilderパターンによるパーサーの構築が素の使い方ですが、バージョン3でderiveマクロによるパーサーの構築が安定化されました。
