@@ -169,7 +169,8 @@ fn main() {
 
 まず、引数`gen`は[トレイト`Generator`](https://docs.rs/clap_complete/latest/clap_complete/generator/trait.Generator.html)を実装したオブジェクトでなければなりません。clap_completeはこのトレイトを実装する[列挙体`Shell`](https://docs.rs/clap_complete/latest/clap_complete/shells/enum.Shell.html)を提供しています。`Shell`は補完スクリプトの生成に対応しているシェルを表現する列挙体です。
 
-次に、引数`app`は[clapの構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)のオブジェクトです。Builder APIでパーサーを構築する場合は素直に手に入りますが、Derive APIを使う場合は[トレイト`IntoApp`](https://docs.rs/clap/latest/clap/trait.IntoApp.html)を使うことで構造体`App`のオブジェクトを手に入れられます。
+次に、引数`app`は[clapの構造体`App`](https://docs.rs/clap/latest/clap/struct.App.html)のオブジェクトです。
+Builder APIでパーサーを構築する場合は素直に手に入りますが、Derive APIを使う場合は[トレイト`IntoApp`](https://docs.rs/clap/latest/clap/trait.IntoApp.html)を使うことで構造体`App`のオブジェクトを手に入れられます。
 
 引数`bin_name`はコマンドの名前です。`Into<String>`を実装しているオブジェクトを渡す必要があります。この引数で渡す名前とバイナリの名前を一致させないと、シェルが補完スクリプトを呼び出すことができません。
 
@@ -261,6 +262,8 @@ fn main() {
     Cli::parse().action.handle();
 }
 ```
+
+上記のソースコードの変更箇所にコメントで番号を付けました。以下ではその番号ごとに説明していきます。
 
 まず、(1)(2)で新しく必要となるトレイトなどをインポートします。
 
