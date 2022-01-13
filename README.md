@@ -310,17 +310,31 @@ $ source setup
 
 まずは、サブコマンドの補完を試してみましょう。コマンド名の後でタブを入力することで、サブコマンドの候補とヘルプメッセージが表示されます。（以下の画像では、入力の後にタブキーを押しているものだと理解してください。）
 
-![サブコマンドの補完を行う](img/complete-subcommand.png)
+```console
+$ clap-completion-example ^I
+completion  -- Generate completion script
+greet       -- Greet some message
+help        -- Print this message or the help of the given subcommand(s)
+```
 
 次の例は、greetサブコマンドのオプションを補完する例です。
 
-![greetサブコマンドのオプションを補完する](img/complete-greet-options.png)
+```console
+$ clap-completion-example greet -^I
+--file      -f  -- File whose content is printed
+--help      -h  -- Print help information
+--language  -l  -- Language in which messages are shown
+```
 
 `-l`オプションや`-f`オプションの候補も入力可能な値が候補として表示されます。
 
-![languageオプションの値を補完する](img/complete-greet-language.png)
-
-![fileオプションの値を補完する](img/complete-greet-file.png)
+```console
+$ clap-completion-example greet -l ^I
+en  ja
+$ clap-completion-example greet -f ^I
+Cargo.lock  LICENSE     setup       target/     
+Cargo.toml  comp/       src/        tests/      
+```
 
 ## さいごに
 
